@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+  mongo:
+    image: bitnami/mongodb:3.4.4-r1
+  backend:
+    image: bitnami/node:7
+    command: yarn run server
+    entrypoint: ./scripts/entrypoint.sh
+    ports:
+      - 3001:3001
+    volumes:
+      - ./:/app
+    depends_on:
+      - mongo
+  client:
+    image: bitnami/node:7
+    command: yarn start
+    entrypoint: ./scripts/entrypoint.sh
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/app

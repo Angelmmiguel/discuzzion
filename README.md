@@ -12,9 +12,11 @@ To run the project, just execute `docker-compose up`. This command will create t
 ## Current technologies
 
 * [React](https://facebook.github.io/react/)
+* [Create-react-app](https://github.com/facebookincubator/create-react-app)
 * [Yarn](https://yarnpkg.com/lang/en/)
 * [Jest](https://facebook.github.io/jest/)
 * [Webpack](https://webpack.js.org/)
+* [Express](http://expressjs.com/)
 * [SimplePeer](https://github.com/feross/simple-peer)
 
 ### Useful links

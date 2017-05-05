@@ -9,4 +9,5 @@ app.get('/status.json', (req, res) => {
   res.json({ status: 'ok' });
 });
 
-app.listen(3001);
+// Create the server
+const server = app.listen(3001);

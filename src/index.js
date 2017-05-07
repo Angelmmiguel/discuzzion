@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import './index.css';
+import Home from './containers/Home';
 import Peer from 'simple-peer';
+import './index.css';
 
 // Basic simple peer config
 let config = {
@@ -12,6 +12,6 @@ let config = {
 };
 
 ReactDOM.render(
-  <App />,
+  <Home />,
   document.getElementById('root')
 );

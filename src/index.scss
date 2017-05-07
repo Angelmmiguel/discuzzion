@@ -1,0 +1,8 @@
+// Import
+@import "./shared";
+
+body {
+  background-color: $bg;
+  color: $text;
+  font-family: $font-main;
+}

@@ -13,6 +13,9 @@ services:
       - ./:/app
     depends_on:
       - mongo
+    environment:
+      - VIRTUAL_HOST=api.discuzzion.docker
+      - VIRTUAL_PORT=3001
   client:
     image: bitnami/node:7
     command: yarn start
@@ -21,3 +24,6 @@ services:
       - 3000:3000
     volumes:
       - ./:/app
+    environment:
+      - VIRTUAL_HOST=discuzzion.docker
+      - VIRTUAL_PORT=3000

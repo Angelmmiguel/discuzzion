@@ -7,7 +7,7 @@ import Logo from '../../components/Logo';
 class Home extends Component {
 
   render() {
-    return <div className="">
+    return <div>
       <Logo/>
     </div>
   }

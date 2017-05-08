@@ -1,0 +1,28 @@
+@import '../../shared.scss';
+
+.TopicForm {
+  input {
+    background-color: $light-bg;
+    border: 0;
+    border-bottom: 2px solid $primary;
+    cursor: pointer;
+    transition: all .2s ease-out;
+
+    &:focus {
+      outline: 0;
+      box-shadow: 2px 2px 8px 0 rgba(0,0,0,.2);
+      border-bottom-color: $secondary;
+    }
+  }
+
+  button {
+    background-color: $primary;
+    border: 0;
+    cursor: pointer;
+    transition: all .2s ease-out;
+
+    &:hover {
+      box-shadow: 2px 2px 8px 0 rgba(0,0,0,.2);
+    }
+  }
+}

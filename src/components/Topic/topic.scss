@@ -1,2 +1,19 @@
 @import '../../shared.scss';
 
+.Topic {
+  background-color: $light-bg;
+  border-bottom: 4px solid $secondary;
+  cursor: pointer;
+
+  &__hashtag {
+    color: $light-text;
+  }
+
+  &__name {
+    border-right: 1px solid $secondary;
+  }
+
+  &__number {
+    color: $light-text;
+  }
+}

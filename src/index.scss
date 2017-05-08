@@ -1,8 +1,13 @@
 // Import
-@import "./shared";
+@import "./shared.scss";
 
 body {
   background-color: $bg;
   color: $text;
   font-family: $font-main;
+}
+
+// Anchors
+a {
+  color: $secondary;
 }

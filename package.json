@@ -23,7 +23,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "server": "nodemon index.js",
-    "build-css": "node-sass src/components -o src/components",
-    "watch-css": "npm run build-css && node-sass src/components -o src/components --watch --recursive"
+    "build-css": "node-sass src/ -o src/",
+    "watch-css": "npm run build-css && node-sass src/ -o src/ --watch --recursive"
   }
 }

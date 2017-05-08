@@ -1,0 +1,9 @@
+.Home {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+
+  &__main {
+    flex: 1;
+  }
+}

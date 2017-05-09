@@ -16,7 +16,9 @@ class Home extends Component {
 
   render() {
     return <div className="Home">
-      <Logo/>
+      <div className="mv5">
+        <Logo/>
+      </div>
       <main className="Home__main">
         <div className="mw7 center cf">
           <div className="fl w-70">

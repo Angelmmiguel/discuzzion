@@ -1,3 +1,11 @@
-.Logo img {
-  height: 4em;
+.Logo {
+  img {
+    height: 4em;
+  }
+
+  &.Logo--small {
+    img {
+      height: 2.5em;
+    }
+  }
 }

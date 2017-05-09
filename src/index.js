@@ -1,7 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Home from './containers/Home';
-import Peer from 'simple-peer';
+import { Provider } from 'react-redux';
+import { RouterProvider } from 'react-router5';
+import App from './containers/App';
+
+// Router
+import createRouter from './router';
+// Redux
+import configureStore from './stores';
+// Styles
 import './index.css';
 
 // Basic simple peer config
@@ -11,7 +18,17 @@ let config = {
   ]
 };
 
-ReactDOM.render(
-  <Home />,
-  document.getElementById('root')
-);
+// Redux and router
+const router = createRouter();
+const store = configureStore(router);
+
+router.start((err, state) => {
+  ReactDOM.render(
+    <Provider store={ store }>
+      <RouterProvider router={ router }>
+        <App />
+      </RouterProvider>
+    </Provider>,
+    document.getElementById('root')
+  );
+});

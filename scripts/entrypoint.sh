@@ -17,4 +17,7 @@ fi
 echo "Installing missing dependencies..."
 yarn install --mutex file
 
+# Hack to prevent errors with node-sass and NFS (Dinghy)
+npm rebuild node-sass
+
 exec "$@"

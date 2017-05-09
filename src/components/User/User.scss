@@ -1,0 +1,13 @@
+@import '../../shared.scss';
+
+.User {
+  background-color: $light-bg;
+  border-bottom: 4px solid;
+  cursor: pointer;
+
+  &__Color {
+    width: .75em;
+    height: .75em;
+    border-radius: 4px;
+  }
+}

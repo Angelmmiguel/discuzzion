@@ -1,0 +1,10 @@
+@import '../../shared';
+
+.Room {
+  &__Chat {
+    &__Box {
+      height: 400px;
+      overflow: scroll;
+    }
+  }
+}

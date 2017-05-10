@@ -1,5 +1,8 @@
-const express = require('express'),
-  app = express();
+const app = require('express')(),
+  server = require('http').Server(app);
+
+// Static files
+app.use(express.static('build'));
 
 app.get('/', (req, res) => {
   res.send('hello world');
@@ -9,5 +12,9 @@ app.get('/status.json', (req, res) => {
   res.json({ status: 'ok' });
 });
 
+app.get('*', function(req, res) {
+  res.sendfile(__dirname + '/build/index.html');
+});
+
 // Create the server
-const server = app.listen(3001);
+app.listen(3001);

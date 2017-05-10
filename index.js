@@ -1,5 +1,5 @@
-const app = require('express')(),
-  server = require('http').Server(app);
+const express = require('express'),
+ app = express();
 
 // Static files
 app.use(express.static('build'));

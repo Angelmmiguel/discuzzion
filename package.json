@@ -4,6 +4,7 @@
   "main": "index.js",
   "dependencies": {
     "express": "^4.15.2",
+    "express-basic-auth": "^1.0.2",
     "immutable": "^3.8.1",
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
@@ -31,6 +32,6 @@
     "production": "node index.js",
     "build-css": "node-sass src/ -o src/",
     "watch-css": "npm run build-css && node-sass src/ -o src/ --watch --recursive",
-    "postinstall": "npm rebuild node-sass && npm run build"
+    "heroku-postbuild": "npm rebuild node-sass && npm run build"
   }
 }

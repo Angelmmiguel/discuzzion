@@ -13,7 +13,11 @@ if (process.env.BASIC_AUTH_USERS) {
   }, this);
 
   // Apply the middleware
-  app.use(basicAuth({ users: users }));
+  app.use(basicAuth({ 
+    users: users,
+    challenge: true,
+    realm: process.env.BASIC_AUTH_REALM
+  }));
 }
 
 // Port

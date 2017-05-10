@@ -5,19 +5,12 @@ export PATH="/app/node_modules/.bin:$PATH"
 echo "Node Version:  $(node -v)"
 
 # Install yarn
-if ! which yarn >/dev/null; then
-  echo "Yarn is not detected. Installing..."
-  sudo apt-get update && sudo apt-get install -y apt-transport-https
-  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-  echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-  sudo apt-get update && sudo apt-get install -y yarn
+echo "Checking dependencies..."
+if ! yarn check > /dev/null 2>&1; then
+  echo "Updating dependencies..."
+  yarn install
+else
+  echo "All dependencies are up to date"
 fi
-
-# Install modules
-echo "Installing missing dependencies..."
-yarn install --mutex file
-
-# Hack to prevent errors with node-sass and NFS (Dinghy)
-npm rebuild node-sass
 
 exec "$@"

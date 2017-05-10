@@ -8,7 +8,7 @@ if (process.env.BASIC_AUTH_USERS) {
   let users = {};
 
   process.env.BASIC_AUTH_USERS.split(',').forEach(userString => {
-    let user = userString.split('=');
+    let user = userString.split(':');
     users[user[0]] = user[1];
   }, this);
 

@@ -1,7 +1,7 @@
 {
   "name": "discuzzion",
   "version": "0.1.0",
-  "entrypoint": "index.js",
+  "main": "index.js",
   "dependencies": {
     "express": "^4.15.2",
     "immutable": "^3.8.1",

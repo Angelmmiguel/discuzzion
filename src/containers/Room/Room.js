@@ -24,7 +24,7 @@ class Room extends Component {
         </aside>
         <main className="Room__Chat w-100 flex justify-between flex-column">
           <Title>Chat</Title>
-          <div className="Room__Chat__Box pv3 mb3">
+          <div className="Room__Chat__Box pv3 mb3 flex flex-column justify-end">
             <div className="mb3">
               <span style={ { color: '#f39508'} } className="dib mr3 w3">Angel</span>
               <span>This is a test message</span>

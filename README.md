@@ -17,8 +17,8 @@ To run the project, just execute `docker-compose up`. This command will create t
 * [Jest](https://facebook.github.io/jest/)
 * [Webpack](https://webpack.js.org/)
 * [Express](http://expressjs.com/)
-* [SimplePeer](https://github.com/feross/simple-peer)
+* [Socket.io](https://socket.io/)
 
 ### Useful links
 
-* [SimplePeer: Connecting to more than 2 peers](https://github.com/feross/simple-peer#connecting-more-than-2-peers)
+* [Rooms and namespaces in Socket.io](https://socket.io/docs/rooms-and-namespaces/)

@@ -4,26 +4,28 @@ services:
   mongo:
     image: bitnami/mongodb:3.4.4-r1
   backend:
-    image: bitnami/node:7
+    image: angelrb/discuzzion:latest
     command: yarn run server
     entrypoint: ./scripts/entrypoint.sh
     ports:
       - 3001:3001
     volumes:
       - ./:/app
+      - /app/node_modules
     depends_on:
       - mongo
     environment:
       - VIRTUAL_HOST=api.discuzzion.docker
       - VIRTUAL_PORT=3001
   client:
-    image: bitnami/node:7
+    image: angelrb/discuzzion:latest
     command: yarn start
     entrypoint: ./scripts/entrypoint.sh
     ports:
       - 3000:3000
     volumes:
       - ./:/app
+      - /app/node_modules
     environment:
       - VIRTUAL_HOST=discuzzion.docker
       - VIRTUAL_PORT=3000

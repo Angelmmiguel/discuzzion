@@ -11,6 +11,7 @@ class Footer extends PureComponent {
       </p>
       <p className="ma0">
         A project by <a className="link" href="https://twitter.com/laux_es" rel="noopener" target="_blank">@angel</a>
+         and <a className="link" href="https://twitter.com/carlosrdrz" rel="noopener" target="_blank">@carlosrdrz</a>
       </p>
     </footer>
   }

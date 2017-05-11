@@ -12,11 +12,11 @@ import configureStore from './stores';
 import './index.css';
 
 // Basic simple peer config
-let config = {
-  iceServers: [
-    { url: 'stun:stun.l.google.com:19302' }
-  ]
-};
+// let config = {
+//   iceServers: [
+//     { url: 'stun:stun.l.google.com:19302' }
+//   ]
+// };
 
 // Redux and router
 const router = createRouter();

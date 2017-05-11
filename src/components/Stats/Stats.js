@@ -1,9 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
+// Components
 import Title from '../Title';
 
-const Stats = (props) =>
+const Stats = () =>
   <section className="Stats mw7 center flex justify-between mt3">
     <div className="tc">
       <p className="b f1 mb3">190</p>

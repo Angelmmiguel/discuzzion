@@ -5,10 +5,11 @@ services:
     image: bitnami/mongodb:3.4.4-r1
   backend:
     image: angelrb/discuzzion:latest
-    command: yarn run server
+    command: yarn run development
     entrypoint: ./scripts/entrypoint.sh
     ports:
       - 3001:3001
+      - 5858:5858
     volumes:
       - ./:/app
       - /app/node_modules

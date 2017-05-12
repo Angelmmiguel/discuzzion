@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router5';
 import App from './containers/App';
+import io from 'socket.io-client';
 
 // Router
 import createRouter from './router';
@@ -18,9 +19,14 @@ import './index.css';
 //   ]
 // };
 
+const socket = io('http://api.discuzzion.docker');
+
 // Redux and router
 const router = createRouter();
-const store = configureStore(router);
+const store = configureStore(router, {
+  // Initial State
+  socket: { socket }
+});
 
 router.start((err, state) => {
   ReactDOM.render(

@@ -1,7 +1,7 @@
 @import '../../shared';
 
 .ChatForm {
-  textarea {
+  input {
     background-color: $light-bg;
     border: 0;
     border-bottom: 2px solid $primary;
@@ -21,6 +21,7 @@
     border: 0;
     cursor: pointer;
     transition: all .2s ease-out;
+    height: calc(4rem + 2px);
 
     &:hover {
       box-shadow: 2px 2px 8px 0 rgba(0,0,0,.2);

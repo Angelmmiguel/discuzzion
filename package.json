@@ -28,7 +28,7 @@
     "start-js": "react-scripts start",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "server": "nodemon index.js",
+    "development": "nodemon --inspect=0.0.0.0:5858 index.js",
     "production": "node index.js",
     "build-css": "node-sass src/ -o src/",
     "watch-css": "npm run build-css && node-sass src/ -o src/ --watch --recursive",

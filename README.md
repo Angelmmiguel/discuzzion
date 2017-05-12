@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Angelmmiguel/discuzzion.svg?branch=master)](https://travis-ci.org/Angelmmiguel/discuzzion)
+
 # Discuzzion
 Talk with other people about something
 

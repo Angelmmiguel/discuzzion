@@ -19,7 +19,7 @@ import './index.css';
 //   ]
 // };
 
-const socket = io('http://api.discuzzion.docker');
+const socket = io();
 
 // Redux and router
 const router = createRouter();

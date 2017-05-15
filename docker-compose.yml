@@ -1,8 +1,6 @@
 version: '2'
 
 services:
-  mongo:
-    image: bitnami/mongodb:3.4.4-r1
   backend:
     image: angelrb/discuzzion:latest
     command: yarn run development
@@ -13,8 +11,6 @@ services:
     volumes:
       - ./:/app
       - /app/node_modules
-    depends_on:
-      - mongo
     environment:
       - VIRTUAL_HOST=api.discuzzion.docker
       - VIRTUAL_PORT=3001

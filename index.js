@@ -2,7 +2,10 @@ const express = require('express'),
   basicAuth = require('express-basic-auth'),
   app = express(),
   http = require('http').Server(app),
-  io = require('socket.io')(http);
+  io = require('socket.io')(http),
+  bodyParser = require('body-parser'),
+  UUID = require('uuid/v4'),
+  Topics = require('./app/topics.js');
 
 // Add authentication only if the ENV variable is present
 // The format must be user1=password1,user2=password2...
@@ -28,20 +31,34 @@ const port = process.env.PORT || 3001;
 // Static files
 app.use(express.static('build'));
 
-app.get('/', (req, res) => {
-  res.send('hello world');
-});
+// Parse JSON body
+app.use(bodyParser.json())
 
+// Health
 app.get('/status.json', (req, res) => {
   res.json({ status: 'ok' });
+});
+
+// Join a topic :D
+app.post('/topic/:topic/join', (req, res) => {
+  let topic = req.params.topic,
+    userId = res.body.userId;
+  
+  // Join a room
+  let room = Topics.joinRoom(userId, topic);
+  res.json({ room: room.id });
+});
+
+// Don't allow users to join directly
+app.get('/topic/:topic/chat', (req, res) => {
+  res.redirect('/topic/:topic');
 });
 
 app.get('*', (req, res) => {
   res.sendfile(__dirname + '/build/index.html');
 });
 
-// Realtime!
-
+// Chat section
 const getCurrentRoom = socket => {
   // Select the last room
   // TODO: Confirm the room
@@ -49,16 +66,13 @@ const getCurrentRoom = socket => {
   return socket.rooms[rooms[rooms.length - 1]];
 }
 
-// TODO: Move this to the database
-const rooms = {};
-
-io.on('connection', function(socket){
-  console.log('a user connected');
+io.on('connection', socket => {
+  // Return the socket
+  socket.emit('ready', { uuid: UUID() });
 
   socket.on('disconnect', () => {
     console.log('user disconnected');
-    // io.sockets.in(getCurrentRoom(socket)).emit();
-    // TODO: Disconnect from the room
+    // Notify rooms
   });
 
   socket.on('join room', (data) => {

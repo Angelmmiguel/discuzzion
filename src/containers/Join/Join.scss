@@ -1,0 +1,12 @@
+@import '../../shared';
+
+.Join {
+  &__Icon {
+    color: $light-text;
+    font-size: 7em;
+  }
+
+  &__Text {
+    font-size: 2em;
+  }
+}

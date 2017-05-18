@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+// Actions
+import { actions } from 'redux-router5';
+
 // Components
 import Logo from '../../components/Logo';
 import Title from '../../components/Title';
@@ -12,11 +15,6 @@ import ChatForm from '../../components/ChatForm';
 // Styles
 import './Room.css';
 
-// Now, we will use random names.
-// TODO: Ask the user for the name
-const names = ['Angel', 'Charlie', 'Carlos', 'Cameron', 'Jess', 'Kyle', 'Lane'],
-  colors = ['#f39508', '#54a986', '#2679ff', '#ae0adb'];
-
 class Room extends Component {
   // Initialize
   constructor(props) {
@@ -26,49 +24,53 @@ class Room extends Component {
     this.onSend = this.onSend.bind(this);
 
     this.state = {
-      me: {
-        name: names[Math.floor(Math.random() * names.length)],
-        color: colors[Math.floor(Math.random() * colors.length)]
-      },
       users: [],
       messages: []
     }
   }
 
+  get room() {
+    return this.props.user.room;
+  }
+
+  get socket() {
+    return this.props.user.socket;
+  }
+
   // Fetch users
   componentDidMount() {
-    // Connect!
-    this.props.socket.on('connect', () => {
+    if (this.room && this.room.id !== undefined) {
       // Emit himself
-      this.props.socket.emit('join room', {
-          room: this.props.room,
-          user: this.state.me
-        });
+      this.socket.emit('join room', {
+        room: this.room.id
+      });
 
-      this.props.socket.on('user join', (user) => {
+      this.socket.on('user join', (user) => {
         this.setState({
           users: this.state.users.slice().concat([user])
         });
       });
 
-      this.props.socket.on('new message', (message) => {
+      this.socket.on('new message', (message) => {
         this.setState({
           messages: this.state.messages.slice().concat([message])
         });
       });
-    });
+    } else {
+      // Redirect user. They can't go to a room directly
+      this.props.dispatch(actions.navigateTo('join', { topic: this.props.topic }));
+    }
   }
 
   // Leave the room
   componentWillUnmount() {
-    this.props.socket.emit('leave room', { user: this.state.me });
+    this.socket.emit('leave room');
   }
 
   // On send
   onSend(text) {
-    let message = { user: this.state.me, text };
     // Emit it! :D
-    this.props.socket.emit('send message', message);
+    this.socket.emit('send message', { text });
   }
 
   render() {
@@ -80,7 +82,7 @@ class Room extends Component {
         <aside className="Room__Users w-40">
           <Title>Users</Title>
           {
-            [this.state.me].concat(this.state.users)
+            [this.props.user.client].concat(this.state.users)
               .map((user, i) => <User key={ i } { ...user } />)
           }
         </aside>
@@ -101,7 +103,7 @@ class Room extends Component {
 
 export default connect((state) => {
   return {
-    socket: state.socket.socket,
-    room: state.router.route.params.room
+    user: state.user,
+    topic: state.router.route.params.topic
   }
 })(Room);

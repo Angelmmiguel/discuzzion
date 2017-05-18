@@ -5,11 +5,13 @@ import { routeNodeSelector } from 'redux-router5';
 // Containers
 import Home from '../Home';
 import Room from '../Room';
+import Join from '../Join';
 import NotFound from '../../components/NotFound';
 
 // Containers for routes
 const containers = {
   'index': Home,
+  'join': Join,
   'room': Room
 };
 

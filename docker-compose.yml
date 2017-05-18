@@ -1,28 +1,33 @@
 version: '2'
 
 services:
+  nginx:
+    image: bitnami/nginx:1.10.2-r1
+    volumes:
+      - ./dev/nginx:/bitnami/nginx/conf/vhosts
+    depends_on:
+      - backend
+      - client
+    environment:
+      - VIRTUAL_HOST=discuzzion.docker
+      - VIRTUAL_PORT=8080
+    ports:
+      - 8080:8080
   backend:
     image: angelrb/discuzzion:latest
     command: yarn run development
     entrypoint: ./scripts/entrypoint.sh
-    ports:
-      - 3001:3001
-      - 5858:5858
     volumes:
       - ./:/app
       - /app/node_modules
+    ports:
+      - 5858:5858
     environment:
-      - VIRTUAL_HOST=api.discuzzion.docker
-      - VIRTUAL_PORT=3001
+      - NODE_ENV=development
   client:
     image: angelrb/discuzzion:latest
     command: yarn start
     entrypoint: ./scripts/entrypoint.sh
-    ports:
-      - 3000:3000
     volumes:
       - ./:/app
       - /app/node_modules
-    environment:
-      - VIRTUAL_HOST=discuzzion.docker
-      - VIRTUAL_PORT=3000

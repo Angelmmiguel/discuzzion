@@ -5,7 +5,7 @@ const Message = props => {
   let messageStyle = { color: props.user.color };
 
   return <div className="mb3">
-    <span style={ messageStyle } className="dib mr3 w3">{ props.user.name }</span>
+    <span style={ messageStyle } className="dib mr3 w4">{ props.user.name }</span>
     <span>{ props.text }</span>
   </div>
 }

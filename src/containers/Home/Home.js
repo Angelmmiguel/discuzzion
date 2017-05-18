@@ -1,5 +1,7 @@
 // Main container. It displays the first form of the app
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { actions } from 'redux-router5';
 
 // Components
 import Logo from '../../components/Logo';
@@ -13,6 +15,17 @@ import Footer from '../../components/Footer';
 import './home.css';
 
 class Home extends Component {
+
+  constructor(props) {
+    super(props);
+
+    // Bind
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  onSubmit(topic) {
+    this.props.dispatch(actions.navigateTo('join', { topic }));
+  }
 
   render() {
     return <div className="Home">
@@ -39,7 +52,7 @@ class Home extends Component {
             <Title>
               Create or join a topic
             </Title>
-            <TopicForm />
+            <TopicForm onSubmit={ this.onSubmit }/>
           </div>
         </div>
         <Stats/>
@@ -49,4 +62,8 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default connect(state => {
+  return {
+    router: state.router
+  }
+})(Home);

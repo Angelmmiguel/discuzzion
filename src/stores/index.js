@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { router5Middleware, router5Reducer } from 'redux-router5';
 
 // Other reducers
-import socketReducer from '../reducers/socket';
+import userReducer from '../reducers/user';
 
 const configureStore = (router, initialState = {}) => {
   // Apply the
@@ -12,7 +12,7 @@ const configureStore = (router, initialState = {}) => {
   // Create and return the store
   return createStoreWithMiddleware(combineReducers({
     router: router5Reducer,
-    socket: socketReducer
+    user: userReducer
   }), initialState);
 }
 

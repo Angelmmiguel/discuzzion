@@ -1,65 +1,72 @@
 // UUID
 const UUID = require('uuid/v4');
 
-// Max number of users per room
+// Max users
 const MAX_USERS = 6;
 
+// Topics class
+class Topics {
 
-// Now, we're going to store the current topics and users in memory. This is a POC and we will improve
-// the reconnection system on a restart. Also, we want to avoid store any information about the message,
-// so this is a good starting point ;)
-let topics = {},
-  users = {};
-
-// This file includes a collection of functions for topics. All the methods are pure
-
-// Create a new room
-const createRoom = (userId) => {
-  return {
-    id: UUID(),
-    users: [userId]
+  // Initialize empty elements
+  constructor(users) {
+    this.topics = {};
+    this.users = users;
   }
-} 
 
-// Try to find a room with a seat or create a new one
-const findOrCreateRoom = (userId, topic) => {
-  let selectedRoom;
+  // Join an user on a room. This method can create a room too.
+  joinRoom(clientId, topic) {
+    let room;
 
-  // Iterate over the rooms
-  topics[topic].some(room => {
-    if (room.users.length < MAX_USERS) {
-      selectedRoom = room;
-      return true;
+    if (this.topics[topic] === undefined) {
+      room = this._createRoom(clientId);
+      this.topics[topic] = [room];
     } else {
-      return false;
+      room = this._findOrCreateRoom(clientId, topic);
     }
-  }, this);
 
-  if (selectedRoom) {
-    selectedRoom.users.push(userId); 
-  } else {
-    // All rooms are full
-    selectedRoom = createRoom(userId);
+    return room;
   }
 
-  // Return the room
-  return selectedRoom;
-}
+  // Leave the current room
+  // TODO: Implement this method
+  leaveRoom(clientId) {
 
-// Get a room for the given topic
-const joinRoom = (userId, topic) => {
-  let room;
-
-  if (topics[topic] === undefined) {
-    room = createRoom(userId);
-    topics[topic] = [room];
-  } else {
-    room = findOrCreateRoom(userId, topic);
   }
 
-  return room;
+  // Create a new room
+  _createRoom(clientId) {
+    return {
+      id: UUID(),
+      users: [clientId]
+    }
+  }
+
+  // Try to find a room with a seat or create a new one
+  _findOrCreateRoom(clientId, topic) {
+    let selectedRoom;
+
+    // Iterate over the rooms
+    this.topics[topic].some(room => {
+      if (room.users.length < MAX_USERS) {
+        selectedRoom = room;
+        return true;
+      } else {
+        return false;
+      }
+    }, this);
+
+    if (selectedRoom) {
+      selectedRoom.users.push(clientId);
+    } else {
+      // All rooms are full
+      selectedRoom = this._createRoom(clientId);
+      // Add it to the first position of the array. It will be easier for add new people to it
+      this.topics[topic].unshift(selectedRoom);
+    }
+
+    // Return the room
+    return selectedRoom;
+  }
 }
 
-module.exports = {
-  joinRoom: joinRoom
-}
+module.exports = Topics;

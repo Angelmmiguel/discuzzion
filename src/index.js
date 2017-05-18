@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router5';
 import App from './containers/App';
 import io from 'socket.io-client';
+import { saveClient } from './actions/user';
 
 // Router
 import createRouter from './router';
@@ -12,21 +13,24 @@ import configureStore from './stores';
 // Styles
 import './index.css';
 
-// Basic simple peer config
-// let config = {
-//   iceServers: [
-//     { url: 'stun:stun.l.google.com:19302' }
-//   ]
-// };
-
+// Initialize the socket information
 const socket = io();
+
+// Redux store
+let store;
+
+// Store the client info in the reducer
+socket.on('ready', (data) => {
+  store.dispatch(saveClient(data.client));
+});
 
 // Redux and router
 const router = createRouter();
-const store = configureStore(router, {
+store = configureStore(router, {
   // Initial State
-  socket: { socket }
+  user: { socket }
 });
+
 
 router.start((err, state) => {
   ReactDOM.render(

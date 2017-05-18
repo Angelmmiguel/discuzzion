@@ -2,10 +2,12 @@ const express = require('express'),
   basicAuth = require('express-basic-auth'),
   app = express(),
   http = require('http').Server(app),
-  io = require('socket.io')(http),
   bodyParser = require('body-parser'),
   UUID = require('uuid/v4'),
-  Topics = require('./app/topics.js');
+  io = require('socket.io')(http),
+  // Project files
+  Topics = require('./app/topics.js'),
+  Random = require('./app/random.js');
 
 // Add authentication only if the ENV variable is present
 // The format must be user1=password1,user2=password2...
@@ -25,6 +27,10 @@ if (process.env.BASIC_AUTH_USERS) {
   }));
 }
 
+// Initialize topics and users!
+const users = {},
+  topics = new Topics(users);
+
 // Port
 const port = process.env.PORT || 3001;
 
@@ -35,22 +41,27 @@ app.use(express.static('build'));
 app.use(bodyParser.json())
 
 // Health
-app.get('/status.json', (req, res) => {
+app.get('/api/status.json', (req, res) => {
   res.json({ status: 'ok' });
 });
 
 // Join a topic :D
-app.post('/topic/:topic/join', (req, res) => {
+app.post('/api/topic/:topic/join', (req, res) => {
   let topic = req.params.topic,
-    userId = res.body.userId;
-  
+    clientId = req.body.clientId;
+
   // Join a room
-  let room = Topics.joinRoom(userId, topic);
-  res.json({ room: room.id });
+  // TODO: Validate clientId
+  let room = topics.joinRoom(clientId, topic);
+  res.json({
+    room: {
+      id: room.id
+    }
+  });
 });
 
 // Don't allow users to join directly
-app.get('/topic/:topic/chat', (req, res) => {
+app.get('/api/topic/:topic/chat', (req, res) => {
   res.redirect('/topic/:topic');
 });
 
@@ -58,42 +69,64 @@ app.get('*', (req, res) => {
   res.sendfile(__dirname + '/build/index.html');
 });
 
-// Chat section
-const getCurrentRoom = socket => {
-  // Select the last room
-  // TODO: Confirm the room
-  let rooms = Object.keys(socket.rooms);
-  return socket.rooms[rooms[rooms.length - 1]];
+const buildUser = socket => {
+  let id = UUID();
+  return {
+    client: {
+      id,
+      name: Random.name(),
+      color: Random.color(),
+    },
+    socket,
+    room: {}
+  }
 }
 
 io.on('connection', socket => {
   // Return the socket
-  socket.emit('ready', { uuid: UUID() });
+  let user = buildUser(socket);
+  socket.clientId = user.client.id;
+  users[socket.id] = user;
+
+  // Emit the information of the user
+  socket.emit('ready', { client: user.client });
 
   socket.on('disconnect', () => {
     console.log('user disconnected');
-    // Notify rooms
+    // Notify room
+    let user = users[socket.id];
+    if (user && user.room && user.room.id !== undefined) {
+      // Notify users
+      io.sockets.in(user.room.id).emit('leave room', user.client);
+      topics.leaveRoom(user);
+    }
+
+    // Remove the user
+    delete users[socket.userUUID];
   });
 
   socket.on('join room', (data) => {
     console.log('New user in the room: ' + data.room);
+    let user = users[socket.id];
+    user.room = { id: data.room };
     // Emit new user
-    io.sockets.in(data.room).emit('user join', data.user);
+    io.sockets.in(user.room.id).emit('user join', user.client);
     // Join current one
-    socket.join(data.room);
+    socket.join(user.room.id);
   });
 
-  socket.on('leave room', (data) => {
-    let room = getCurrentRoom(socket);
-    console.log('New user in the room: ' + room);
-    socket.leave(room);
+  socket.on('leave room', () => {
+    let user = users[socket.id];
+    console.log('New user in the room: ' + user.room.id);
+    socket.leave(user.room.id);
     // Emit new user
-    io.sockets.in(room).emit('user leave', data.user);
+    io.sockets.in(user.room.id).emit('user leave', user.client);
   });
 
   socket.on('send message', (data) => {
-    console.log(getCurrentRoom(socket));
-    io.sockets.in(getCurrentRoom(socket)).emit('new message', data);
+    let user = users[socket.id],
+      message = { text: data.text, user: user.client };
+    io.sockets.in(user.room.id).emit('new message', message);
   });
 });
 

@@ -1,5 +1,6 @@
 // TODO: We must set this parameter as configurable
-const API_URL = 'http://discuzzion.docker';
+// Now, it uses the same domain
+const API_URL = '';
 
 // Generate the URL
 const apiUrl = (endpoint, team = true) => {

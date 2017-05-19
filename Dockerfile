@@ -11,7 +11,8 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - && \
 
 # Cache dependencies
 COPY package.json yarn.lock /app/
-RUN yarn install
+COPY ./client/package.json ./client/yarn.lock /app/client/
+RUN yarn install && cd /app/client && yarn install
 
 # Clean
 RUN apt-get remove --purge -y apt-transport-https && apt-get clean && apt-get purge && \

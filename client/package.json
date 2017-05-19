@@ -1,0 +1,32 @@
+{
+  "name": "discuzzion-client",
+  "version": "0.1.0",
+  "license" : "Apache-2.0",
+  "dependencies": {
+    "immutable": "^3.8.1",
+    "prop-types": "^15.5.8",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-redux": "^5.0.4",
+    "react-router5": "^4.1.0",
+    "redux": "^3.6.0",
+    "redux-router5": "^4.2.3",
+    "router5": "^4.5.2",
+    "socket.io": "^2.0.1"
+  },
+  "devDependencies": {
+    "node-sass": "^4.5.2",
+    "npm-run-all": "^4.0.2",
+    "react-scripts": "0.9.5"
+  },
+  "scripts": {
+    "start": "npm-run-all -p watch-css start-js",
+    "build": "npm run build-css && react-scripts build",
+    "start-js": "react-scripts start",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "build-css": "node-sass src/ -o src/",
+    "watch-css": "npm run build-css && node-sass src/ -o src/ --watch --recursive",
+    "heroku-postbuild": "npm rebuild node-sass && npm run build"
+  }
+}

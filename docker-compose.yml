@@ -15,10 +15,11 @@ services:
       - 8080:8080
   backend:
     image: angelrb/discuzzion:latest
-    command: yarn run development
-    entrypoint: ./scripts/entrypoint.sh
+    command: yarn start
+    entrypoint: /scripts/entrypoint.sh
     volumes:
       - ./:/app
+      - ./scripts:/scripts
       - /app/node_modules
     ports:
       - 5858:5858
@@ -27,7 +28,10 @@ services:
   client:
     image: angelrb/discuzzion:latest
     command: yarn start
-    entrypoint: ./scripts/entrypoint.sh
+    entrypoint: /scripts/entrypoint.sh
     volumes:
-      - ./:/app
+      - ./client:/app
+      - ./scripts:/scripts
       - /app/node_modules
+    environment:
+      - NODE_ENV=development

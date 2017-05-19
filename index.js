@@ -29,7 +29,7 @@ if (process.env.BASIC_AUTH_USERS) {
 
 // Initialize topics and users!
 const users = {},
-  topics = new Topics(users);
+  topics = new Topics();
 
 // Port
 const port = process.env.PORT || 3001;
@@ -41,18 +41,26 @@ app.use(express.static('client/build'));
 app.use(bodyParser.json())
 
 // Health
-app.get('/api/status.json', (req, res) => {
-  res.json({ status: 'ok' });
+app.get('/api/status', (req, res) => {
+  res.json({
+    status: 'ok',
+    stats: {
+      topics: topics.countTopics(),
+      rooms: topics.countRooms(),
+      users: Object.keys(users).length
+    },
+    currentTopics: topics.currentTopics()
+  });
 });
 
 // Join a topic :D
 app.post('/api/topic/:topic/join', (req, res) => {
   let topic = req.params.topic,
-    clientId = req.body.clientId;
+    socketId = req.body.uuid;
 
   // Join a room
   // TODO: Validate clientId
-  let room = topics.joinRoom(clientId, topic);
+  let room = topics.joinRoom(topic, socketId);
   res.json({
     room: {
       id: room.id
@@ -89,7 +97,7 @@ io.on('connection', socket => {
   users[socket.id] = user;
 
   // Emit the information of the user
-  socket.emit('ready', { client: user.client });
+  socket.emit('ready', { client: user.client, uuid: socket.id });
 
   socket.on('disconnect', () => {
     console.log('user disconnected');
@@ -97,28 +105,36 @@ io.on('connection', socket => {
     let user = users[socket.id];
     if (user && user.room && user.room.id !== undefined) {
       // Notify users
-      io.sockets.in(user.room.id).emit('leave room', user.client);
-      topics.leaveRoom(user);
+      topics.leaveRoom(user.room.topic, user.room.id, socket.id);
+      // Emit users
+      io.sockets.in(user.room.id).emit('user leave', user.client);
     }
 
     // Remove the user
-    delete users[socket.userUUID];
+    delete users[socket.id];
   });
 
   socket.on('join room', (data) => {
     console.log('New user in the room: ' + data.room);
     let user = users[socket.id];
-    user.room = { id: data.room };
+    user.room = { id: data.room, topic: data.topic };
     // Emit new user
     io.sockets.in(user.room.id).emit('user join', user.client);
+    // Emit current users
+    socket.emit('current users',
+      topics.roomUsers(user.room.topic, user.room.id, socket.id).map(socketId => {
+        return users[socketId].client;
+      })
+    );
     // Join current one
     socket.join(user.room.id);
   });
 
   socket.on('leave room', () => {
     let user = users[socket.id];
-    console.log('New user in the room: ' + user.room.id);
+    console.log('User left room: ' + user.room.id);
     socket.leave(user.room.id);
+    topics.leaveRoom(user.room.topic, user.room.id, socket.id);
     // Emit new user
     io.sockets.in(user.room.id).emit('user leave', user.client);
   });

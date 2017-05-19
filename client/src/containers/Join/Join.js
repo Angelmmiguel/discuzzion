@@ -24,27 +24,26 @@ class Join extends Component {
   }
 
   is_client_initialized() {
-    return this.props.user.client !== undefined && this.props.user.client.id !== undefined
+    return this.props.user.uuid !== undefined;
   }
 
   componentDidMount() {
     if (this.is_client_initialized()) {
-      this.fetchRoom(this.props.user.client.id);
+      this.fetchRoom(this.props.user.uuid);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.is_client_initialized() && nextProps.user.client !== undefined &&
-        nextProps.user.client.id !== undefined) {
-      this.fetchRoom(nextProps.user.client.id);
+    if (!this.is_client_initialized() && nextProps.user.uuid !== undefined) {
+      this.fetchRoom(nextProps.user.uuid);
     }
   }
 
   // Get a the room ID
-  fetchRoom(clientId) {
+  fetchRoom(uuid) {
     fetch(`/topic/${this.props.topic}/join`, {
       method: 'POST',
-      body: { clientId }
+      body: { uuid }
     }).then(res => {
       if (!res.error) {
         this.props.dispatch(joinRoom(res.body.room));

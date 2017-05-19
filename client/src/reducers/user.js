@@ -3,8 +3,13 @@ import actionNames from '../actions/actionNames';
 
 // Initial state
 const initialState = {
+  // Public part. Known by everyone
   client: {},
+  // Private part of the user.
+  uuid: undefined,
+  // Current Room
   room: {},
+  // Client socket
   socket: undefined
 }
 
@@ -13,7 +18,8 @@ const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionNames.USER_SAVE_CLIENT:
       return Object.assign({}, state, {
-        client: action.client
+        client: action.user.client,
+        uuid: action.user.uuid
       });
     case actionNames.USER_JOIN_ROOM:
       return Object.assign({}, state, {

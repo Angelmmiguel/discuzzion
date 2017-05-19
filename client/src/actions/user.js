@@ -2,10 +2,10 @@
 import actionNames from './actionNames';
 
 // Store the client information of the user
-export const saveClient = client => {
+export const saveUser = user => {
   return {
     type: actionNames.USER_SAVE_CLIENT,
-    client
+    user
   }
 }
 

@@ -42,7 +42,12 @@ class Room extends Component {
     if (this.room && this.room.id !== undefined) {
       // Emit himself
       this.socket.emit('join room', {
-        room: this.room.id
+        room: this.room.id,
+        topic: this.props.topic
+      });
+
+      this.socket.on('current users', (users) => {
+        this.setState({ users });
       });
 
       this.socket.on('user join', (user) => {
@@ -54,6 +59,12 @@ class Room extends Component {
       this.socket.on('new message', (message) => {
         this.setState({
           messages: this.state.messages.slice().concat([message])
+        });
+      });
+
+      this.socket.on('user leave', (user) => {
+        this.setState({
+          users: this.state.users.slice().filter(currentUser => currentUser.id !== user.id)
         });
       });
     } else {

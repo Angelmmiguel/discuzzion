@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router5';
 import App from './containers/App';
 import io from 'socket.io-client';
-import { saveClient } from './actions/user';
+import { saveUser } from './actions/user';
 
 // Router
 import createRouter from './router';
@@ -20,12 +20,12 @@ const socket = io();
 let store;
 
 // Store the client info in the reducer
-socket.on('ready', (data) => {
-  store.dispatch(saveClient(data.client));
+socket.on('ready', (user) => {
+  store.dispatch(saveUser(user));
 });
 
 // Redux and router
-const router = createRouter();
+const router = createRouter(true);
 store = configureStore(router, {
   // Initial State
   user: { socket }

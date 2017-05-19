@@ -35,7 +35,7 @@ const users = {},
 const port = process.env.PORT || 3001;
 
 // Static files
-app.use(express.static('build'));
+app.use(express.static('client/build'));
 
 // Parse JSON body
 app.use(bodyParser.json())

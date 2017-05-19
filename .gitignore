@@ -39,13 +39,13 @@ jspm_packages
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+node_modules
 
 # testing
 /coverage
 
 # production
-/build
+build
 
 # misc
 .DS_Store
@@ -55,7 +55,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # Ignore CSS files
-src/**/*.css
+*.css
 
 # VSCode things
 .vscode

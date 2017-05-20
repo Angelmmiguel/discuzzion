@@ -13,9 +13,14 @@
   "devDependencies": {
     "nodemon": "^1.11.0"
   },
+  "cacheDirectories": [
+    "client/node_modules",
+    "node_modules"
+  ],
   "scripts": {
     "start": "nodemon --inspect=0.0.0.0:5858 index.js",
     "production": "node index.js",
+    "heroku-prebuild": "cd client && yarn install",
     "heroku-postbuild": "cd client && npm rebuild node-sass && npm run build"
   }
 }

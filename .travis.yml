@@ -11,7 +11,9 @@ jobs:
     - stage: client:test
       script:
         - cd client && yarn run test-coverage
-        - cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage -p . && cd ../
+        - cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage
+        - cd ../
     - stage: client:build
       script:
-        - cd client && yarn build && cd ../
+        - cd client && yarn build
+        - cd ../

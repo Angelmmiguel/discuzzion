@@ -6,4 +6,6 @@ install:
   - yarn install
   - cd client && yarn install && cd ../
 script:
+  - cd client && yarn test
   - cd client && yarn run build
+  - cd client && yarn run test --coverage && cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage -p .

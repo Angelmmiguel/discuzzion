@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Angelmmiguel/discuzzion.svg?branch=master)](https://travis-ci.org/Angelmmiguel/discuzzion)
+[![Build Status](https://travis-ci.org/Angelmmiguel/discuzzion.svg?branch=master)](https://travis-ci.org/Angelmmiguel/discuzzion) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ec76e9b18f8b44ecb4ec44d5bc39065b)](https://www.codacy.com/app/angelmm/discuzzion?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Angelmmiguel/discuzzion&amp;utm_campaign=Badge_Grade)
 
 > **NOTE**: This project is currently under active development
 

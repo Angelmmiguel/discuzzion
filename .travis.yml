@@ -12,7 +12,7 @@ jobs:
       script:
         - cd client && yarn run test-coverage
         - ls ./coverage/ && cat ./coverage/lcov.info
-        - cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage
+        - cat ./coverage/lcov.info | node_modules/.bin/codacy-coverage -p .
         - cd ../
     - stage: client:build
       script:

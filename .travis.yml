@@ -5,7 +5,12 @@ cache: yarn
 install:
   - yarn install
   - cd client && yarn install && cd ../
-script:
-  - cd client && yarn test
-  - cd client && yarn run build
-  - cd client && yarn run test --coverage && cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage -p .
+
+jobs:
+  include:
+    - stage: client:test
+      script:
+        - cd client && yarn run test --coverage && cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage -p . && cd ../
+    - stage: client:build
+      script:
+        - cd client && yarn build && cd ../

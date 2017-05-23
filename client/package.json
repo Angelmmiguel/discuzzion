@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "license": "Apache-2.0",
   "jest": {
-    "coverageDirectory": "./coverage/",
     "coverageReporters": [
       "lcov"
     ]
@@ -18,7 +17,7 @@
     "react-dom": "^15.5.4",
     "react-redux": "^5.0.4",
     "react-router5": "^4.1.0",
-    "react-scripts": "0.9.5",
+    "react-scripts": "1.0.2",
     "redux": "^3.6.0",
     "redux-router5": "^4.2.3",
     "router5": "^4.5.2",

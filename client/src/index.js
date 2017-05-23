@@ -6,6 +6,9 @@ import App from './containers/App';
 import io from 'socket.io-client';
 import { saveUser } from './actions/user';
 
+// PWA
+import registerServiceWorker from './registerServiceWorker';
+
 // Router
 import createRouter from './router';
 // Redux
@@ -42,3 +45,6 @@ router.start((err, state) => {
     document.getElementById('root')
   );
 });
+
+// Register the service worker for production
+registerServiceWorker();

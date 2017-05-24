@@ -1,5 +1,4 @@
 const express = require('express'),
-  basicAuth = require('express-basic-auth'),
   app = express(),
   http = require('http').Server(app),
   bodyParser = require('body-parser'),
@@ -8,24 +7,6 @@ const express = require('express'),
   // Project files
   Topics = require('./app/topics.js'),
   Random = require('./app/random.js');
-
-// Add authentication only if the ENV variable is present
-// The format must be user1=password1,user2=password2...
-if (process.env.BASIC_AUTH_USERS) {
-  let users = {};
-
-  process.env.BASIC_AUTH_USERS.split(',').forEach(userString => {
-    let user = userString.split(':');
-    users[user[0]] = user[1];
-  }, this);
-
-  // Apply the middleware
-  app.use(basicAuth({
-    users: users,
-    challenge: true,
-    realm: process.env.BASIC_AUTH_REALM
-  }));
-}
 
 // Initialize topics and users!
 const users = {},
@@ -74,7 +55,11 @@ app.get('/api/topic/:topic/chat', (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  res.sendfile(__dirname + '/build/index.html');
+  if (process.env.AVOID_ROBOTS) {
+    res.sendfile(__dirname + '/build/index.norobots.html');
+  } else {
+    res.sendfile(__dirname + '/build/index.html');
+  }
 });
 
 const buildUser = socket => {

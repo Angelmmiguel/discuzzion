@@ -18,7 +18,7 @@
   ],
   "scripts": {
     "start": "nodemon --inspect=0.0.0.0:5858 index.js",
-    "production": "node index.js",
+    "production": "node index.js --inspect=0.0.0.0:5858",
     "heroku-prebuild": "cd client && yarn install",
     "heroku-postbuild": "cd client && npm rebuild node-sass && npm run build"
   }

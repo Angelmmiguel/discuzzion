@@ -55,11 +55,7 @@ app.get('/api/topic/:topic/chat', (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  if (process.env.AVOID_ROBOTS) {
-    res.sendfile(__dirname + '/build/index.norobots.html');
-  } else {
-    res.sendfile(__dirname + '/build/index.html');
-  }
+  res.sendfile(__dirname + '/client/build/index.html');
 });
 
 const buildUser = socket => {

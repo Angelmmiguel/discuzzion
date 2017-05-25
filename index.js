@@ -114,10 +114,14 @@ io.on('connection', socket => {
   socket.on('leave room', () => {
     let user = users[socket.id];
     console.log('User left room: ' + user.room.id);
-    socket.leave(user.room.id);
-    topics.leaveRoom(user.room.topic, user.room.id, socket.id);
-    // Emit new user
-    io.sockets.in(user.room.id).emit('user leave', user.client);
+
+    if (user && user.room && user.room.id !== undefined) {
+      socket.leave(user.room.id);
+      topics.leaveRoom(user.room.topic, user.room.id, socket.id);
+
+      // Emit new user
+      io.sockets.in(user.room.id).emit('user leave', user.client);
+    }
   });
 
   socket.on('send message', (data) => {

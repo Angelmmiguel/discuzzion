@@ -75,7 +75,9 @@ class Room extends Component {
 
   // Leave the room
   componentWillUnmount() {
-    this.socket.emit('leave room');
+    if (this.room && this.room.id !== undefined) {
+      this.socket.emit('leave room');
+    }
   }
 
   // On send

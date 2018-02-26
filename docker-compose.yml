@@ -15,7 +15,7 @@ services:
       - 8080:8080
   backend:
     image: angelrb/discuzzion:latest
-    command: yarn start
+    command: yarn dev
     entrypoint: /scripts/entrypoint.sh
     volumes:
       - ./:/app

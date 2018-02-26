@@ -4,7 +4,8 @@ const prefix = 'discuzzion';
 // Define the actions for the application
 const actions = [
   'USER_SAVE_CLIENT',
-  'USER_JOIN_ROOM'
+  'USER_JOIN_ROOM',
+  'USER_GENERATE_KEYS',
 ]
 
 // Export them with a prefix to isolate our app in Redux

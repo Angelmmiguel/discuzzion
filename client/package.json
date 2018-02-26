@@ -10,6 +10,7 @@
   "dependencies": {
     "codacy-coverage": "^2.0.2",
     "immutable": "^3.8.1",
+    "kbpgp": "^2.0.77",
     "node-sass": "^4.5.2",
     "npm-run-all": "^4.0.2",
     "prop-types": "^15.5.8",

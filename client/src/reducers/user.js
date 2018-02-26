@@ -10,7 +10,9 @@ const initialState = {
   // Current Room
   room: {},
   // Client socket
-  socket: undefined
+  socket: undefined,
+  // PGP keys
+  pgp: undefined
 }
 
 // Reducer
@@ -24,6 +26,10 @@ const userReducer = (state = initialState, action) => {
     case actionNames.USER_JOIN_ROOM:
       return Object.assign({}, state, {
         room: action.room
+      });
+    case actionNames.USER_GENERATE_KEYS:
+      return Object.assign({}, state, {
+        pgp: action.pgp
       });
     default:
       return state;

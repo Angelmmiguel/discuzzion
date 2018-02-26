@@ -1022,6 +1022,10 @@ bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.4.0:
   version "4.11.6"
   resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.11.6.tgz#53344adb14617a13f6e8dd2ce28905d1c0ba3215"
 
+bn@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/bn/-/bn-1.0.1.tgz#a153825e6b1eb2c2db7726149b047a07ce0a3bb3"
+
 boolbase@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
@@ -1175,6 +1179,10 @@ builtin-status-codes@^3.0.0:
 bytes@2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-2.3.0.tgz#d5b680a165b6201739acb611542aabc2d8ceb070"
+
+bzip-deflate@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/bzip-deflate/-/bzip-deflate-1.0.0.tgz#b02db007ef37bebcc29384a4b2c6f4f0f4c796c9"
 
 caller-path@^0.1.0:
   version "0.1.0"
@@ -1802,6 +1810,10 @@ debug@^2.1.1, debug@^2.2.0, debug@^2.6.0, debug@^2.6.3, debug@^2.6.6, debug@^2.6
 decamelize@^1.0.0, decamelize@^1.1.1, decamelize@^1.1.2:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
+
+deep-equal@>=0.2.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-1.0.1.tgz#f5d260292b660e084eff4cdbc9f08ad3247448b5"
 
 deep-extend@~0.4.0:
   version "0.4.2"
@@ -3026,6 +3038,20 @@ https-browserify@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-0.0.1.tgz#3f91365cabe60b77ed0ebba24b454e3e09d95a82"
 
+iced-error@>=0.0.10, iced-error@>=0.0.8, iced-error@>=0.0.9:
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/iced-error/-/iced-error-0.0.12.tgz#e0a861462817cf0ce974b13fca612d3a0d5d10be"
+
+iced-lock@^1.0.1, iced-lock@^1.0.2:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/iced-lock/-/iced-lock-1.1.0.tgz#6116ef1cab3acd6e6b10893bb27ba622fd3fde72"
+  dependencies:
+    iced-runtime "^1.0.0"
+
+iced-runtime@>=0.0.1, iced-runtime@^1.0.0, iced-runtime@^1.0.2, iced-runtime@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/iced-runtime/-/iced-runtime-1.0.3.tgz#2d4f4fb999ab7aa5430b193c77a7fce4118319ce"
+
 iconv-lite@0.4.13:
   version "0.4.13"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.13.tgz#1f88aba4ab0b1508e8312acc39345f36e992e2f2"
@@ -3778,6 +3804,38 @@ jsx-ast-utils@^1.3.4, jsx-ast-utils@^1.4.0:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/jsx-ast-utils/-/jsx-ast-utils-1.4.1.tgz#3867213e8dd79bf1e8f2300c0cfc1efb182c0df1"
 
+kbpgp@^2.0.77:
+  version "2.0.77"
+  resolved "https://registry.yarnpkg.com/kbpgp/-/kbpgp-2.0.77.tgz#6e9d2f57985be9596c5ea6c9e5a38333f31ab199"
+  dependencies:
+    bn "^1.0.0"
+    bzip-deflate "^1.0.0"
+    deep-equal ">=0.2.1"
+    iced-error ">=0.0.10"
+    iced-lock "^1.0.2"
+    iced-runtime "^1.0.3"
+    keybase-ecurve "^1.0.0"
+    keybase-nacl "^1.0.0"
+    minimist "^1.2.0"
+    pgp-utils ">=0.0.34"
+    purepack ">=1.0.4"
+    triplesec ">=3.0.19"
+    tweetnacl "^0.13.1"
+
+keybase-ecurve@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/keybase-ecurve/-/keybase-ecurve-1.0.0.tgz#c6bc72adda4603fd3184fee7e99694ed8fd69ad2"
+  dependencies:
+    bn "^1.0.0"
+
+keybase-nacl@^1.0.0:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/keybase-nacl/-/keybase-nacl-1.0.10.tgz#3865831e9481516488df7cbd989467e950d87a8b"
+  dependencies:
+    iced-runtime "^1.0.2"
+    tweetnacl "^0.13.1"
+    uint64be "^1.0.1"
+
 kind-of@^3.0.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-3.2.2.tgz#31ea21a734bab9bbb0f32466d893aea51e4a3c64"
@@ -4120,6 +4178,12 @@ mkdirp@0.5.1, mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdi
 moment@2.x.x:
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
+
+more-entropy@>=0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/more-entropy/-/more-entropy-0.0.7.tgz#67bfc6f7a86f26fbc37aac83fd46d88c61d109b5"
+  dependencies:
+    iced-runtime ">=0.0.1"
 
 ms@0.7.1:
   version "0.7.1"
@@ -4635,6 +4699,13 @@ performance-now@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-0.2.0.tgz#33ef30c5c77d4ea21c5a53869d91b56d8f2555e5"
 
+pgp-utils@>=0.0.34:
+  version "0.0.34"
+  resolved "https://registry.yarnpkg.com/pgp-utils/-/pgp-utils-0.0.34.tgz#d84f49f7c193b5e0b9415f5cc5c2a695ed790c23"
+  dependencies:
+    iced-error ">=0.0.8"
+    iced-runtime ">=0.0.1"
+
 pify@^2.0.0, pify@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/pify/-/pify-2.3.0.tgz#ed141a6ac043a849ea588498e7dca8b15330e90c"
@@ -4999,7 +5070,7 @@ process@^0.11.0:
   version "0.11.10"
   resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
 
-progress@^1.1.8:
+progress@^1.1.8, progress@~1.1.2:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/progress/-/progress-1.1.8.tgz#e260c78f6161cdd9b0e56cc3e0a85de17c7a57be"
 
@@ -5054,6 +5125,10 @@ punycode@1.3.2:
 punycode@^1.2.4, punycode@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
+
+purepack@>=1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/purepack/-/purepack-1.0.4.tgz#086282fd939285f58664ba9a9bba31cdb165ccd2"
 
 q@^1.1.2:
   version "1.5.0"
@@ -6247,6 +6322,16 @@ trim-right@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/trim-right/-/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
 
+triplesec@>=3.0.19:
+  version "3.0.26"
+  resolved "https://registry.yarnpkg.com/triplesec/-/triplesec-3.0.26.tgz#dff2bb4758a423372e739a397d8991f0597d0ac1"
+  dependencies:
+    iced-error ">=0.0.9"
+    iced-lock "^1.0.1"
+    iced-runtime "^1.0.2"
+    more-entropy ">=0.0.7"
+    progress "~1.1.2"
+
 tryit@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/tryit/-/tryit-1.0.3.tgz#393be730a9446fd1ead6da59a014308f36c289cb"
@@ -6260,6 +6345,10 @@ tunnel-agent@^0.6.0:
   resolved "https://registry.yarnpkg.com/tunnel-agent/-/tunnel-agent-0.6.0.tgz#27a5dea06b36b04a0a9966774b290868f0fc40fd"
   dependencies:
     safe-buffer "^5.0.1"
+
+tweetnacl@^0.13.1:
+  version "0.13.3"
+  resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.13.3.tgz#d628b56f3bcc3d5ae74ba9d4c1a704def5ab4b56"
 
 tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
@@ -6309,6 +6398,10 @@ uglify-to-browserify@~1.0.0:
 uid-number@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/uid-number/-/uid-number-0.0.6.tgz#0ea10e8035e8eb5b8e4449f06da1c730663baa81"
+
+uint64be@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/uint64be/-/uint64be-1.0.1.tgz#1f7154202f2a1b8af353871dda651bf34ce93e95"
 
 ultron@~1.1.0:
   version "1.1.0"

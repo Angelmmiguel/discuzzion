@@ -19,7 +19,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon --inspect=0.0.0.0:5858 index.js",
-    "heroku-prebuild": "export NPM_CONFIG_PRODUCTION=false; export NODE_ENV=; cd client && NPM_CONFIG_PRODUCTION=false NODE_ENV=development yarn install && yarn build",
+    "heroku-prebuild": "export NPM_CONFIG_PRODUCTION=false; export NODE_ENV=; cd client && YARN_PRODUCTION=false NPM_CONFIG_PRODUCTION=false NODE_ENV=development yarn install && yarn build",
     "heroku-postbuild": "export NPM_CONFIG_PRODUCTION=true; export NODE_ENV=production;"
   }
 }

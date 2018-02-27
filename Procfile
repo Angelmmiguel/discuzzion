@@ -1,1 +1,1 @@
-web: npm run production
+web: yarn start

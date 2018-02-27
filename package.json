@@ -21,6 +21,6 @@
     "dev": "nodemon --inspect=0.0.0.0:5858 index.js",
     "build": "cd client && yarn install && yarn build",
     "heroku-prebuild": "cd client && yarn install",
-    "heroku-postbuild": "cd client && npm rebuild node-sass && npm run build"
+    "heroku-postbuild": "cd client && npm rebuild node-sass && yarn build"
   }
 }

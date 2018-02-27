@@ -65,6 +65,7 @@ const buildUser = socket => {
       id,
       name: Random.name(),
       color: Random.color(),
+      publicKey: undefined
     },
     socket,
     room: {}
@@ -99,6 +100,7 @@ io.on('connection', socket => {
     console.log('New user in the room: ' + data.room);
     let user = users[socket.id];
     user.room = { id: data.room, topic: data.topic };
+    user.client = Object.assign({}, user.client, { publicKey: data.publicKey });
     // Emit new user
     io.sockets.in(user.room.id).emit('user join', user.client);
     // Emit current users

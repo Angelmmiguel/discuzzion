@@ -15,6 +15,9 @@ import ChatForm from '../../components/ChatForm';
 // Styles
 import './Room.css';
 
+// Keys
+import kbpgp from 'kbpgp';
+
 class Room extends Component {
   // Initialize
   constructor(props) {
@@ -22,6 +25,7 @@ class Room extends Component {
 
     // Binds
     this.onSend = this.onSend.bind(this);
+    this.loadUser = this.loadUser.bind(this);
 
     this.state = {
       users: [],
@@ -37,29 +41,36 @@ class Room extends Component {
     return this.props.user.socket;
   }
 
+  get pgp() {
+    return this.props.user.pgp;
+  }
+
   // Fetch users
   componentDidMount() {
-    if (this.room && this.room.id !== undefined) {
+    if (this.room && this.room.id !== undefined && this.pgp !== undefined) {
       // Emit himself
-      this.socket.emit('join room', {
-        room: this.room.id,
-        topic: this.props.topic
+      this.pgp.export_pgp_public({}, (err, pgpPublic) => {
+        if (err) {
+          console.error(err);
+        } else {
+          this.socket.emit('join room', {
+            room: this.room.id,
+            topic: this.props.topic,
+            publicKey: pgpPublic
+          });
+        }
       });
 
       this.socket.on('current users', (users) => {
-        this.setState({ users });
+        users.forEach(this.loadUser);
       });
 
       this.socket.on('user join', (user) => {
-        this.setState({
-          users: this.state.users.slice().concat([user])
-        });
+        this.loadUser(user);
       });
 
       this.socket.on('new message', (message) => {
-        this.setState({
-          messages: this.state.messages.slice().concat([message])
-        });
+        this.decryptMessage(message);
       });
 
       this.socket.on('user leave', (user) => {
@@ -80,10 +91,67 @@ class Room extends Component {
     }
   }
 
+  loadUser(user) {
+    kbpgp.KeyManager.import_from_armored_pgp({
+      armored: user.publicKey
+    }, (err, pgp) => {
+      if (!err) {
+        const loadedUser = {
+          ...user, pgp
+        }
+
+        this.setState((prevState) => ({
+          users: prevState.users.slice().concat([loadedUser])
+        }));
+      } else {
+        console.error(err);
+      }
+    });
+  }
+
+  decryptMessage(message) {
+    const ring = new kbpgp.keyring.KeyRing();
+    ring.add_key_manager(this.pgp);
+    this.state.users.forEach((u) => ring.add_key_manager(u.pgp));
+
+    kbpgp.unbox({keyfetch: ring, armored: message.text }, (err, literals) => {
+      if (err != null) {
+        return console.log("Problem: " + err);
+      } else {
+        console.log("decrypted message");
+        message.original = message.text;
+        message.text = literals[0].toString();
+        this.setState({
+          messages: this.state.messages.slice().concat([message])
+        });
+        // Verification
+        // var ds = km = null;
+        // ds = literals[0].get_data_signer();
+        // if (ds) { km = ds.get_key_manager(); }
+        // if (km) {
+        //   console.log("Signed by PGP fingerprint");
+        //   console.log(km.get_pgp_fingerprint().toString('hex'));
+        // }
+      }
+    });
+  }
+
   // On send
   onSend(text) {
     // Emit it! :D
-    this.socket.emit('send message', { text });
+    const params = {
+      msg:         text,
+      encrypt_for: (this.state.users.map((u) => u.pgp)).concat([this.pgp]),
+      sign_with:   this.pgp
+    };
+
+    kbpgp.box (params, (err, result_string, result_buffer) => {
+      if (!err) {
+        this.socket.emit('send message', { text: result_string });
+      } else {
+        console.error(err);
+      }
+    });
   }
 
   render() {

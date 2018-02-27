@@ -56,17 +56,12 @@ class Join extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('will receive')
     if (!this.isClientInitialized() && nextProps.user.uuid !== undefined &&
         nextProps.user.pgp !== undefined) {
       this.fetchRoom(nextProps.user.uuid);
     } else if (nextProps.user.uuid !== undefined) {
       this.generateKey(nextProps.user.uuid);
     }
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    console.log('will update!');
   }
 
   updateKeyGenerationState(o) {
@@ -83,12 +78,9 @@ class Join extends Component {
         keyGenerating: true
       });
 
-      console.log('Generate!');
-
       const opts = this.keyOptions(uuid);
 
       kbpgp.KeyManager.generate_rsa(opts, (err, user) => {
-        console.log('Generated!!!');
         user.sign({}, (err) => {
           this.props.dispatch(generateKeys(user));
         });
@@ -151,7 +143,7 @@ class Join extends Component {
 
   renderText() {
     if (this.state.keyGenerating) {
-      return `Generating the key... ${this.convertStatus(this.state.keyStatus)}`
+      return this.convertStatus(this.state.keyStatus);
     } else {
       return 'Finding a room for you...';
     }

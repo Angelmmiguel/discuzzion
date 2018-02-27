@@ -17,8 +17,9 @@
     "node_modules"
   ],
   "scripts": {
-    "start": "node index.js --inspect=0.0.0.0:5858",
+    "start": "node index.js",
     "dev": "nodemon --inspect=0.0.0.0:5858 index.js",
-    "build": "cd client && yarn install && yarn build"
+    "build": "cd client && yarn install && yarn build",
+    "postinstall": "yarn build"
   }
 }

@@ -10,13 +10,11 @@ import { joinRoom, generateKeys } from '../../actions/user';
 import fetch from '../../shared/fetch';
 
 // Keys
-import kbpgp from 'kbpgp';
+// import kbpgp from 'kbpgp';
+import generatePGPKeys from '../../shared/pgp';
 
 // Import styles
 import './Join.css';
-
-// Constants from OpenPGP
-const F = kbpgp['const'].openpgp;
 
 class Join extends Component {
 
@@ -65,11 +63,9 @@ class Join extends Component {
   }
 
   updateKeyGenerationState(o) {
-    if (o.what !== this.state.keyStatus) {
-      this.setState({
-        keyStatus: o.what
-      });
-    }
+    this.setState(() => ({
+      keyStatus: this.convertStatus(o)
+    }));
   }
 
   generateKey(uuid) {
@@ -78,41 +74,10 @@ class Join extends Component {
         keyGenerating: true
       });
 
-      const opts = this.keyOptions(uuid);
-
-      kbpgp.KeyManager.generate_rsa(opts, (err, user) => {
-        user.sign({}, (err) => {
-          this.props.dispatch(generateKeys(user));
-        });
+      generatePGPKeys(uuid, this.updateKeyGenerationState).then((user) => {
+        this.props.dispatch(generateKeys(user));
       });
     }
-  }
-
-  keyOptions(uuid) {
-    const asp = new kbpgp.ASP({
-      progress_hook: this.updateKeyGenerationState
-    });
-
-    return {
-      asp,
-      userid: uuid,
-      primary: {
-        nbits: 1024,
-        flags: F.certify_keys | F.sign_data | F.auth | F.encrypt_comm | F.encrypt_storage,
-        expire_in: 0  // never expire
-      },
-      subkeys: [
-        {
-          nbits: 1024,
-          flags: F.sign_data,
-          expire_in: 86400 * 365 * 8 // 8 years
-        }, {
-          nbits: 1024,
-          flags: F.encrypt_comm | F.encrypt_storage,
-          expire_in: 86400 * 365 * 8
-        }
-      ]
-    };
   }
 
   // Get a the room ID
@@ -128,14 +93,16 @@ class Join extends Component {
     });
   }
 
-  convertStatus(status) {
-    switch(status) {
+  convertStatus(o) {
+    switch(o.what) {
       case 'guess':
         return 'Doing some maths 🔢';
       case 'fermat':
-        return 'Finding unicorns 🦄';
+        return `Finding unicorns 🦄 [${o.p.toString().slice(-3)}]`;
+      case 'found':
+        return `Unicorn found! 🦄`
       case 'mr':
-        return 'Validating stuff 🤓';
+        return `Validating stuff 🤓 [${~~(100 * o.i / o.total)}%]`;
       default:
         return 'Running some scripts 👻';
     }
@@ -143,7 +110,7 @@ class Join extends Component {
 
   renderText() {
     if (this.state.keyGenerating) {
-      return this.convertStatus(this.state.keyStatus);
+      return this.state.keyStatus;
     } else {
       return 'Finding a room for you...';
     }

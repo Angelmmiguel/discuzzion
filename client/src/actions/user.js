@@ -16,3 +16,11 @@ export const joinRoom = room => {
     room
   }
 }
+
+// Generate a key pair
+export const generateKeys = pgp => {
+  return {
+    type: actionNames.USER_GENERATE_KEYS,
+    pgp
+  }
+}

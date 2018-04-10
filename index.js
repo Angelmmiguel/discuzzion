@@ -1,5 +1,6 @@
 const express = require('express'),
   app = express(),
+  path = require('path'),
   http = require('http').Server(app),
   bodyParser = require('body-parser'),
   UUID = require('uuid/v4'),
@@ -16,7 +17,7 @@ const users = {},
 const port = process.env.PORT || 3001;
 
 // Static files
-app.use(express.static('client/build'));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 // Parse JSON body
 app.use(bodyParser.json())
@@ -55,7 +56,7 @@ app.get('/api/topic/:topic/chat', (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  res.sendfile(__dirname + '/client/build/index.html');
+  res.sendfile(path.join(__dirname, 'client/build', 'index.html'));
 });
 
 const buildUser = socket => {
